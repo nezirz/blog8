@@ -1,0 +1,31 @@
+p#notice = notice
+
+p
+  strong Title:
+  = @post.title
+p
+  strong Body:
+  = @post.body
+
+
+p
+  - @post.comments.each do |c|
+    = c.body
+    br
+    i= time_ago_in_words c.created_at
+    |  ago
+    = link_to 'Delete', [@post,c], method: :delete, data:{confirm:'Sure delete?'}
+    br
+    br
+
+p
+  = form_for [@post,@post.comments.build] do |f|
+    =f.text_area :body, size:'40x10'
+    br
+    =f.submit 'Save comment'
+
+
+
+= link_to 'Edit', edit_post_path(@post)
+'|
+= link_to 'Back', posts_path
